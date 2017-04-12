@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Bootstrap Case</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="https://cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+</head>
+<body ng-app="">
+
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">ICSSE</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="#">Anh Hung</a></li>
+				<li><a th:href="@{/form/tin/}">Tin</a></li>
+			</ul>
+		</div>
+	</nav>
+	<div class="container">
+		<div th:switch="${page}">
+			<!-- Thanh vien -->
+			<div th:case="'tin'">
+				<table class="table table-hover">
+					<tr>
+						<th>Ma Tin</th>
+						<th>Tieu De</th>
+					</tr>
+					<tr th:each="item:${listtin}">
+						<td th:text="${item.maTin}"></td>
+						<td th:text="${item.tieuDe}"></td>
+						<td><a th:href="@{/form/xulysuatin/{id}(id=${item.maTin})}">Update</a></td>
+						<td><a th:href="@{/form/xoatin/{id}(id=${item.maTin})}">Delete</a></td>
+					</tr>
+				</table>
+			</div>
+			<!-- Tham gia  -->
+			<div th:case="'thamgia'"></div>
+			<!-- liet ke them hoat dong  -->
+			<div th:case="hoatdong">
+				Thêm tin: <input type="checkbox" ng-model="myVar"
+					ng-init="myVar = false" />
+				<div ng-if="myVar">
+					<h1>Thêm Hoạt Động</h1>
+				</div>
+			</div>
+
+
+			<!-- sua tin  -->
+			<div th:case="suatin">
+			 	Sửa tin: <input type="checkbox" ng-model="myVar"
+					ng-init="myVar = false" />
+				<div ng-if="myVar"> 
+					<h1>Sửa tin tức</h1>
+					<form action="#" th:action="@{/form/suatin}" th:object="${tin}">
+						<table>
+							<tr>
+								<td></td>
+								<td><p>
+										<input type="text" style="display: none" th:field="*{maTin}" />
+									</p></td>
+							</tr>
+							<tr>
+								<td>Tiêu đề</td>
+								<td><p>
+										<input type="text" th:field="*{tieuDe}" />
+									</p></td>
+							</tr>
+							
+							<tr>
+								<td>nội dung</td>
+								<td><textarea name="editor1" id="editor1" rows="10"
+										cols="80"><input type="text" th:field="*{noiDung}" />
+						            </textarea>
+						           
+						            <script >
+						            CKEDITOR.replace("editor1");
+						            </script>
+						         
+					            </td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><p>
+										<input type="submit" value="Sửa Tin" />
+									</p></td>
+							</tr>
+						</table>
+					</form>
+				</div>
+				<div>
+					<h1>Danh sách các Tin</h1>
+					<table class="table table-hover">
+						<tr>
+							<th>Ma Tin</th>
+							<th>Tieu De</th>
+						</tr>
+						<tr th:each="item:${listtin}">
+							<td th:text="${item.maTin}"></td>
+							<td th:text="${item.tieuDe}"></td>
+							<td><a th:href="@{/form/xulysuatin/{id}(id=${item.maTin})}">Update</a></td>
+							<td><a th:href="@{/form/xoatin/{id}(id=${item.maTin})}">Delete</a></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<!-- Thong ke  -->
+			<div th:case="thongke"></div>
+		</div>
+	  </div>
+</body>
+</html>
